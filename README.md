@@ -4,12 +4,12 @@ English | [中文](README_ZH.md)
 
 ## Contents
 
-* [Introduction](#Introduction)
-* [Development Preparations](#Development Preparations)
-* [Environment Requirements](#Environment Requirements)
-* [Sample Code](#Sample Code)
-* [Running Result](#Running Result)
-* [License](#License)
+* [Introduction](#introduction)
+* [Development Preparations](#development-preparations)
+* [Environment Requirements](#environment-requirements)
+* [Sample Code](#sample-code)
+* [Running Result](#running-result)
+* [License](#license)
 
 Introduction
 ------------
@@ -27,8 +27,10 @@ The sample code, which is complied using Gradle, shows how to integrate the DCI 
 
    (1) Download the agconnect-services.json file from AppGallery Connect and add it to the app directory of the demo project.
 
-   (2) Open the app-level build.gradle file. Replace APP_ID with the app ID obtained from AppGallery Connect and applicationId with your app package name.
+    
 
+   (2) Open the app-level build.gradle file. Replace APP_ID with the app ID obtained from AppGallery Connect and applicationId with your app package name.
+   
    (3) Generate a signing certificate fingerprint. Copy the generated signing certificate to the project and configure the signing certificate in the app-level build.gradle file.
 
 ## Environment Requirements
