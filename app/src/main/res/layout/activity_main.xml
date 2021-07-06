@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <Button
+        android:id="@+id/btn_login_hms_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/hms_account_login"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_register_dci_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/register_dci_account"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_close_dci_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/close_dci_account"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_get_dci_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/get_dci_account"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/about_registration"
+        android:textColor="@color/white" />
+</LinearLayout>
+

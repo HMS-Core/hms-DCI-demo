@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">DciKitDemo</string>
+    <string name="please_login_hms_first">Sign in to your HUAWEI ID first.</string>
+    <string name="hms_login_success">Sign-in successful.</string>
+    <string name="hms_account_login">Sign in to HUAWEI ID</string>
+    <string name="current_not_register_dci_account">Register as a DCI user.</string>
+    <string name="please_login_hms_again">Sign-in expired. Please sign in again.</string>
+    <string name="register_dci_account">Register as DCI user</string>
+
+    <string name="close_dci_account">Deregister</string>
+    <string name="close_dci_account_success">Deregistration successful.</string>
+    <string name="close_dci_account_failed">Deregistration failed.</string>
+
+    <string name="get_dci_account">View registration information</string>
+    <string name="please_get_dci_account">Register as a DCI user first.</string>
+    <string name="succeeded_get_dci_account">Registration information obtained successfully.</string>
+    <string name="deregister_dci_account_whether">Are you sure you want to deregister?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="please_select_picture_first">Select an image.</string>
+    <string name="select_picture">Select image</string>
+    <string name="please_permission_first">Grant the app relevant permissions. Otherwise, some functions will be unavailable.</string>
+    <string name="please_go_to_setting">No file access permission. Grant the app file access permission in system settings.</string>
+    <string name="file_access_denied">File access denied.</string>
+
+    <string name="about_registration">Register digital work copyright</string>
+    <string name="dci_registration">Register</string>
+    <string name="registration_processing">Registering…</string>
+    <string name="registration_failed">Registration failed.</string>
+    <string name="revoke_dci_code_success">Deregistration successful.</string>
+    <string name="uploading_registered_work_succeeded">Registration application sent successfully.</string>
+    <string name="querying_registration_information">View registration information</string>
+    <string name="registration_success">DCI code issued.</string>
+    <string name="revoke_dci_copyright">Deregister</string>
+    <string name="add_dci_watermark">Add watermark for registered digital work</string>
+  
+    <string name="please_registration_work_first">Register your digital work first.</string>
+    <string name="please_query_dci_registration_result">Registration in progress or failed.</string>
+</resources>
