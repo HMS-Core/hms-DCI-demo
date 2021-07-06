@@ -1,4 +1,4 @@
-## HUAWEI DCI Kit Sample Code for Android
+# HUAWEI DCI Kit Sample Code for Android
 
 English | [中文](README_ZH.md)
 

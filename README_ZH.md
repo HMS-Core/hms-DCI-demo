@@ -1,4 +1,4 @@
-## 华为DCI版权服务安卓示例代码
+# 华为DCI版权服务安卓示例代码
 
 中文 | [English](README.md)
 
@@ -25,10 +25,12 @@ DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”�
 
 3. 配置示例代码：
 
-   （1）从AppGallery Connect下载您应用的agconnect-services.json文件，并添加到示例代码的app目录下（\app），替换app下build.gradle的APP_ID为您申请的。
+   （1）从AppGallery Connect下载您应用的agconnect-services.json文件，并添加到示例代码的app目录下（\app），替换app下build.gradle的APP_ID为您  
+
+   ​         申请的。
 
    （2）将示例工程的应用级build.gradle文件中“applicationId”的值更改为您自己的应用包名。
-
+   
    （3）需要生成签名证书指纹并将证书文件添加到项目中，并在app下的build.gradle文件中配置。
 
 ## 环境要求
