@@ -1,20 +1,20 @@
-# HUAWEI DCI Kit Sample Code for Android
+## HUAWEI DCI Kit Sample Code for Android
 
 English | [中文](README_ZH.md)
 
 ## Contents
 
-* [Introduction](#introduction)
-* [Development Preparations](#development-preparations)
-* [Environment Requirements](#environment-requirements)
-* [Sample Code](#sample-code)
-* [Running Result](#running-result)
-* [License](#license)
+* [Introduction](#Introduction)
+* [Development Preparations](#Development Preparations)
+* [Environment Requirements](#Environment Requirements)
+* [Sample Code](#Sample Code)
+* [Running Result](#Running Result)
+* [License](#License)
 
 Introduction
 ------------
 
-HUAWEI Digital Copyright Identifier Kit (DCI Kit), developed by Huawei and Copyright Protection Center of China (CPCC), protects copyrights by leveraging technologies related to the blockchain and big data. Capabilities provided by this kit include DCI user registration and copyright registration. After a copyright owner initiates a copyright registration request, this kit will use the big data technology to verify the work. After the copyright registration succeeds, CPCC will sign and issue a DCI code for the copyright owner. Information about successfully registered digital works (including their DCI codes) will be stored in the blockchain, ensuring that all copyright information is reliable and traceable.
+HUAWEI Digital Copyright Identifier Kit (DCI Kit), developed by Huawei and Copyright Protection Center of China (CPCC), protects copyrights by leveraging technologies related to the blockchain and big data. Capabilities provided by this kit include DCI user registration and copyright registration. After a copyright owner initiates a copyright registration request, this kit will use the big data technology to verify the work. After the copyright registration succeeds, CPCC will sign and issue a DCI code for the copyright owner. Information about successfully registered works (including their DCI codes) will be stored in the blockchain, ensuring that all copyright information is reliable and traceable.
 ## Development Preparations
 
 The sample code, which is complied using Gradle, shows how to integrate the DCI SDK for Android into an app.  
@@ -42,14 +42,14 @@ The sample code, which is complied using Gradle, shows how to integrate the DCI 
 
 ## Sample Code
 
-The sample code shows how to integrate the DCI SDK to use capabilities of DCI Kit, including DCI user registration, obtaining information about a DCI user, DCI user deregistration, digital work copyright registration, obtaining information about a digital work, digital work copyright deregistration, and adding watermarks to registered digital works.
+The sample code shows how to use capabilities of DCI Kit, including registration and deregistration of DCI users, obtaining information about a DCI user, registration and deregistration of photographic work copyrights, obtaining work copyright registration information, and adding a DCI icon to registered photographic works. 
 
-1. MainActivity.java, which is under the app\src\main\java\com\huawei\codelab\dcidemo directory, is used for DCI user registration, obtaining information about a DCI user, and DCI user deregistration.  
-2. RegistrationActivity.java, which is under the app\src\main\java\com\huawei\codelab\dcidemo directory, is used for digital work copyright registration, obtaining information about digital work registration, digital work copyright deregistration, and adding watermarks to registered digital works.  
+1. MainActivity.java, which is under the app\src\main\java\com\huawei\codelab\dcidemo directory, is used for registration and deregistration of DCI users and obtaining information about a DCI user.  
+2. RegistrationActivity.java, which is under the app\src\main\java\com\huawei\codelab\dcidemo directory, is used for registration and deregistration of photographic work copyrights, obtaining information about photographic work copyright registration, and adding a DCI icon to registered photographic works.  
 
 ## Running Result
 
-Information about the registered DCI users and works is printed in the log. In addition, the user deregistration or digital work copyright deregistration result will be displayed in a toast window.
+Information about the registered DCI users and works is printed in the log. In addition, the user deregistration or work copyright deregistration result will be displayed in a toast window. 
 
 ## Technical Support
 

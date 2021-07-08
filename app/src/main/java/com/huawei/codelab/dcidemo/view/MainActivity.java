@@ -93,14 +93,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showCloseDciAccountDialog();
                 break;
             case R.id.btn_get_dci_account:
-                // view registration information
+                // DCI Kit obtains user information
                 getDciAccount();
                 break;
             case R.id.btn_registration:
                 if (checkHmsAndDciInActive()) {
                     return;
                 }
-                // register digital work copyright
+                // register copyright for photographic work
                 RegistrationActivity.start(this);
                 break;
             default:
@@ -214,9 +214,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }).setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss()).create().show();
     }
 
-    /**
-     * Close DCI copyRight account.
-     */
     private void closeAccount() {
         showLoading();
         ParamsInfoEntity paramsInfoEntity = DataUtils.getCommonParamsInfoEntity();

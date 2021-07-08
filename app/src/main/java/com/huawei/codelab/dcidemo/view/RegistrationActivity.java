@@ -50,7 +50,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
- * Register digital work copyright class.
+ * Register copyright for photographic work class.
  *
  * @since 2021-06-02
  */
@@ -137,25 +137,23 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_select_picture:
-                // select an image
+                // select photographic work
                 selectWorkPic();
                 break;
             case R.id.btn_dci_registration:
-                // DCI registration of selected works
+                // register
                 applyDciCode();
                 break;
             case R.id.btn_query_result:
                 // view registration information
-//                queryDciResult();
-                Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show();
+                queryDciResult();
                 break;
             case R.id.btn_revoke_copyright:
-                // revocation of copyright in DCI works
-//                revokeDciCode();
-                Toast.makeText(RegistrationActivity.this, getString(R.string.revoke_dci_code_success), Toast.LENGTH_SHORT).show();
+                // deregister
+                revokeDciCode();
                 break;
             case R.id.btn_add_dci_watermark:
-                // add watermark for registered digital work
+                // add DCI icon for registered photographic work
                 addDciWatermark();
                 break;
             default:
