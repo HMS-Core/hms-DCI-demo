@@ -1,15 +1,15 @@
-## HUAWEI DCI Kit Sample Code for Android
+# HUAWEI DCI Kit Sample Code for Android
 
 English | [中文](README_ZH.md)
 
 ## Contents
 
-* [Introduction](#Introduction)
-* [Development Preparations](#Development Preparations)
-* [Environment Requirements](#Environment Requirements)
-* [Sample Code](#Sample Code)
-* [Running Result](#Running Result)
-* [License](#License)
+* [Introduction](#introduction)
+* [Development Preparations](#development-preparations)
+* [Environment Requirements](#environment-requirements)
+* [Sample Code](#sample-code)
+* [Running Result](#running-result)
+* [License](#license)
 
 Introduction
 ------------
