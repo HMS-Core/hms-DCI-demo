@@ -1,4 +1,4 @@
-# 华为DCI版权服务安卓示例代码
+## 华为DCI版权服务安卓示例代码
 
 中文 | [English](README.md)
 
@@ -14,7 +14,7 @@
 简介
 ------------
 
-DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”）是由华为和中国版权中心合作，利用区块链和大数据技术，对数字作品版权进行保护，提供DCI版权服务用户注册、DCI登记等能力。版权服务用户发起DCI登记确权，利用大数据技术对作品的合法性进行校验，DCI登记成功后，由中国版权中心签发DCI码，作为用户作品的版权凭证。DCI版权服务会将登记成功的作品信息（包括DCI码）保存在区块链中，保证所有的版权信息可信、可回溯。
+DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”）是由华为和中国版权保护中心（即数字版权唯一标识符管理机构）合作，按照《中华人民共和国著作权法》、“数字版权唯一标识符”标准及相关规定，利用区块链和大数据、人工智能等技术，对数字作品版权进行保护，提供DCI版权服务用户注册、DCI登记服务、DCI维权服务等能力。DCI登记成功的作品信息（包括DCI码）将保存在区块链中，保证所有的版权信息可信、可回溯。
 ## 开发准备
 
 我们提供一个示例展示如何使用DCI Kit安卓SDK。该示例使用Gradle编译系统。
@@ -25,12 +25,10 @@ DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”�
 
 3. 配置示例代码：
 
-   （1）从AppGallery Connect下载您应用的agconnect-services.json文件，并添加到示例代码的app目录下（\app），替换app下build.gradle的APP_ID为您  
-
-   ​         申请的。
+   （1）从AppGallery Connect下载您应用的agconnect-services.json文件，并添加到示例代码的app目录下（\app），替换app下build.gradle的APP_ID为您申请的。
 
    （2）将示例工程的应用级build.gradle文件中“applicationId”的值更改为您自己的应用包名。
-   
+
    （3）需要生成签名证书指纹并将证书文件添加到项目中，并在app下的build.gradle文件中配置。
 
 ## 环境要求
@@ -42,14 +40,14 @@ DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”�
 
 ## 示例代码
 
-该示例代码为您提供了DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户、摄影作品DCI登记、查询摄影作品DCI登记信息、撤销DCI登记作品的版权、对DCI登记成功的摄影作品添加DCI标。
+该示例代码为您提供了DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户、摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、对DCI登记成功的摄影作品添加DCI标。
 
 1. MainActivity.java 提供DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\MainActivity.java 中。
-2. RegistrationActivity.java  提供摄影作品DCI登记、查询摄影作品DCI登记信息、撤销DCI登记作品的版权、对DCI登记成功的摄影作品添加DCI标能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\RegistrationActivity.java 中。
+2. RegistrationActivity.java  提供摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、对DCI登记成功的摄影作品添加DCI标能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\RegistrationActivity.java 中。
 
 ## 运行结果
 
-该示例代码在日志中打印DCI版权服务用户信息，DCI摄影作品登记信息的内容，Toast弹窗提示注销DCI版权服务用户，撤销DCI登记作品的版权的结果。
+该示例代码在日志中打印DCI版权服务用户信息，DCI摄影作品登记信息的内容，Toast弹窗提示注销DCI版权服务用户，撤销摄影作品的DCI登记的结果。
 
 ## 技术支持
 

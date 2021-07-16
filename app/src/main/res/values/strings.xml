@@ -28,7 +28,7 @@
     <string name="about_registration">Register copyright</string>
     <string name="dci_registration">Register</string>
     <string name="registration_processing">Registering…</string>
-    <string name="registration_failed">Registration failed.</string>
+    <string name="registration_failed">Registration failed</string>
     <string name="revoke_dci_code_success">Deregistration successful.</string>
     <string name="uploading_registered_work_succeeded">Registration application sent successfully.</string>
     <string name="querying_registration_information">View registration information</string>
