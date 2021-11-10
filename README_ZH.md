@@ -14,7 +14,7 @@
 简介
 ------------
 
-DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”）是由华为和中国版权保护中心（即数字版权唯一标识符管理机构）合作，按照《中华人民共和国著作权法》、“数字版权唯一标识符”标准及相关规定，利用区块链和大数据、人工智能等技术，对数字作品版权进行保护，提供DCI版权服务用户注册、DCI登记服务、DCI维权服务等能力。DCI登记成功的作品信息（包括DCI码）将保存在区块链中，保证所有的版权信息可信、可回溯。
+DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”）是由华为和中国版权保护中心（即数字版权唯一标识符管理机构）合作，按照《中华人民共和国著作权法》、“数字版权唯一标识符”标准及相关规定，利用区块链和大数据、人工智能等技术，对数字作品版权进行保护，提供DCI版权服务用户注册、DCI登记服务、DCI授权服务和DCI维权服务等能力。DCI登记成功的作品信息和版权权属确认信息将会保存在区块链中，保证所有的版权信息可信、可回溯。
 ## 开发准备
 
 我们提供一个示例展示如何使用DCI Kit安卓SDK。该示例使用Gradle编译系统。
@@ -40,10 +40,10 @@ DCI版权服务（Digital Copyright Identifier Kit，以下简称“DCI Kit”�
 
 ## 示例代码
 
-该示例代码为您提供了DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户、摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、对DCI登记成功的摄影作品添加DCI标。
+该示例代码为您提供了DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户、摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、查询撤销摄影作品DCI登记的结果、对DCI登记成功的摄影作品添加DCI标。
 
 1. MainActivity.java 提供DCI版权服务用户注册、获取DCI版权服务用户信息、注销DCI版权服务用户能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\MainActivity.java 中。
-2. RegistrationActivity.java  提供摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、对DCI登记成功的摄影作品添加DCI标能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\RegistrationActivity.java 中。
+2. RegistrationActivity.java  提供摄影作品DCI登记、查询摄影作品DCI登记信息、撤销摄影作品的DCI登记、查询撤销摄影作品DCI登记的结果、对DCI登记成功的摄影作品添加DCI标能力。代码位于app\src\main\java\com\huawei\codelab\dcidemo\RegistrationActivity.java 中。
 
 ## 运行结果
 
