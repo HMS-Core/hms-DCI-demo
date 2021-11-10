@@ -18,7 +18,6 @@ package com.huawei.codelab.dcidemo.push;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.huawei.hms.push.HmsMessageService;
 
@@ -28,12 +27,9 @@ import com.huawei.hms.push.HmsMessageService;
  * @since 2021-06-02
  */
 public class HwPushMsgService extends HmsMessageService {
-    private static final String TAG = "HwPushMsgService";
-
     @Override
     public void onNewToken(String token, Bundle bundle) {
         if (!TextUtils.isEmpty(token)) {
-            Log.e(TAG, "onNewToken: get token success " + token);
             HmsPushHelper.setPushToken(token);
         }
     }

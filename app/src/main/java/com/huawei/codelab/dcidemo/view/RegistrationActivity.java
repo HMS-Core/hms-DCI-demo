@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -38,16 +39,16 @@ import androidx.appcompat.app.ActionBar;
 
 import com.huawei.codelab.dcidemo.R;
 import com.huawei.codelab.dcidemo.utils.DataUtils;
-import com.huawei.codelab.dcidemo.utils.FileUtils;
-import com.huawei.codelab.dcidemo.utils.PermissionsUtils;
 import com.huawei.hms.dci.entity.ParamsInfoEntity;
+import com.huawei.hms.dci.entity.QueryRevokeDciInfoEntity;
 import com.huawei.hms.dci.entity.WorkDciInfoEntity;
-import com.huawei.hms.dci.function.HwDciClientCallBack;
 import com.huawei.hms.dci.function.HwDciException;
 import com.huawei.hms.dci.function.HwDciPublicClient;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 /**
  * Register copyright for photographic work class.
@@ -65,9 +66,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     private String mDciCode;
 
-    private String selectFilePath;
+    private Uri selectUri;
 
     private ImageView mImageView;
+
+    private boolean isRevokingWork;
 
     /**
      * Start DCI Work Registration Processing class.
@@ -91,7 +94,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         }
         initView();
         initData(getIntent());
-        permissionsUtils = PermissionsUtils.getInstance();
     }
 
     private void initView() {
@@ -101,6 +103,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.btn_query_result).setOnClickListener(this);
         findViewById(R.id.btn_add_dci_watermark).setOnClickListener(this);
         findViewById(R.id.btn_revoke_copyright).setOnClickListener(this);
+        findViewById(R.id.btn_query_revoke_dci_info).setOnClickListener(this);
     }
 
     private void initData(Intent intent) {
@@ -113,13 +116,17 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         // You can obtain the URI from the intent and parse the DCI work ID, DCI registration status, and DCI code.
         Uri data = intent.getData();
         if (data != null) {
-            // state DCI Registered Work Status：1:success 2:fail 3:revoked 4:manual review
-            String workId = data.getQueryParameter("workId");
-            String state = data.getQueryParameter("state");
-            String dciCode = data.getQueryParameter("dciCode");
-            Log.e(TAG, "DCI Registered Work ID = " + workId);
-            Log.e(TAG, "The status of the work registered by DCI = " + state);
-            Log.e(TAG, "DCI code = " + dciCode);
+            try {
+                // state DCI Registered Work Status：1:success 2:fail 3:revoked 4:manual review
+                String workId = data.getQueryParameter("workId");
+                String state = data.getQueryParameter("state");
+                String dciCode = data.getQueryParameter("dciCode");
+                Log.e(TAG, "DCI Registered Work ID = " + workId);
+                Log.e(TAG, "The status of the work registered by DCI = " + state);
+                Log.e(TAG, "DCI code = " + dciCode);
+            } catch (RuntimeException ex) {
+                Log.e(TAG, "uri getQueryParameter exception");
+            }
         }
     }
 
@@ -152,6 +159,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 // deregister
                 revokeDciCode();
                 break;
+            case R.id.btn_query_revoke_dci_info:
+                // query revoke dci info
+                queryRevokeDciInfo();
+                break;
             case R.id.btn_add_dci_watermark:
                 // add DCI icon for registered photographic work
                 addDciWatermark();
@@ -169,20 +180,45 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             return;
         }
         if (requestCode == PICTURE_REQUEST_CODE) {
-            String filePath = FileUtils.getRealFilePath(this, data.getData());
-            if (TextUtils.isEmpty(filePath)) {
-                Log.e(TAG, "onActivityResult filePath is null");
+            if (data.getData() == null) {
                 return;
             }
-            selectFilePath = filePath;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(selectFilePath, options);
-            options.inSampleSize = calculateInSampleSize(options, 800, 800);
-            options.inJustDecodeBounds = false;
-            Bitmap bitmap = BitmapFactory.decodeFile(selectFilePath, options);
-            mImageView.setImageBitmap(bitmap);
+            selectUri = data.getData();
+            try {
+                ParcelFileDescriptor fd = getContentResolver().openFileDescriptor(selectUri, "r");
+                if (fd == null) {
+                    return;
+                }
+                showLoading();
+                getBitmap(fd);
+            } catch (FileNotFoundException e) {
+                dismissDialog();
+                Log.e(TAG, "openFileDescriptor FileNotFoundException");
+            }
         }
+    }
+
+    private void getBitmap(ParcelFileDescriptor fd) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileDescriptor fileDescriptor = fd.getFileDescriptor();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = calculateInSampleSize(options, 800, 800);
+                Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+                Message message = Message.obtain();
+                message.obj = bitmap;
+                mDealImageHandler.sendMessage(message);
+                try {
+                    fd.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "ParcelFileDescriptor close IOException");
+                }
+            }
+        }).start();
     }
 
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -202,26 +238,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void selectWorkPic() {
-        permissionsUtils.checkPermissions(
-                this,
-                PermissionsUtils.getPermissions(),
-                new PermissionsUtils.IPermissionsResult() {
-                    @Override
-                    public void passPermissions() {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        startActivityForResult(intent, PICTURE_REQUEST_CODE);
-                    }
-
-                    @Override
-                    public void forbidPermissions(List<String> deniedPermissions) {
-                        Toast.makeText(RegistrationActivity.this, getString(R.string.please_permission_first), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICTURE_REQUEST_CODE);
     }
 
     private void applyDciCode() {
-        if (TextUtils.isEmpty(selectFilePath)) {
+        if (selectUri == null) {
             Toast.makeText(this, getString(R.string.please_select_picture_first), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -232,22 +255,18 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             // location address Fill in the actual information
             HwDciPublicClient.applyDciCode(
                     paramsInfoEntity,
-                    selectFilePath,
+                    selectUri,
                     "北京市",
                     System.currentTimeMillis(),
-                    new HwDciClientCallBack<String>() {
+                    new CommonFailCallBack<String>() {
                         @Override
                         public void onSuccess(String workId) {
                             Log.e(TAG, "DCI Registered Work ID = " + workId);
+                            isRevokingWork = false;
+                            mDciCode = null;
                             mWorkId = workId;
                             dismissDialog();
                             Toast.makeText(RegistrationActivity.this, getString(R.string.uploading_registered_work_succeeded), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            dismissDialog();
-                            disposeError(code, msg);
                         }
                     });
         } catch (HwDciException e) {
@@ -266,7 +285,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         paramsInfoEntity.setDciUid(DataUtils.getDciUid());
         paramsInfoEntity.setWorkId(mWorkId);
         try {
-            HwDciPublicClient.queryWorkDciInfo(paramsInfoEntity, new HwDciClientCallBack<WorkDciInfoEntity>() {
+            HwDciPublicClient.queryWorkDciInfo(paramsInfoEntity, new CommonFailCallBack<WorkDciInfoEntity>() {
                 @Override
                 public void onSuccess(WorkDciInfoEntity result) {
                     dismissDialog();
@@ -284,12 +303,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         Toast.makeText(RegistrationActivity.this, getString(R.string.registration_failed) + ":" + result.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                @Override
-                public void onFail(int code, String msg) {
-                    dismissDialog();
-                    disposeError(code, msg);
-                }
             });
         } catch (HwDciException ex) {
             dismissDialog();
@@ -306,17 +319,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         ParamsInfoEntity paramsInfoEntity = DataUtils.getCommonParamsInfoEntity();
         paramsInfoEntity.setDciUid(DataUtils.getDciUid());
         try {
-            HwDciPublicClient.revokeDciCode(paramsInfoEntity, mDciCode, new HwDciClientCallBack<Void>() {
+            HwDciPublicClient.revokeDciCode(paramsInfoEntity, mDciCode, new CommonFailCallBack<String>() {
                 @Override
-                public void onSuccess(Void v) {
+                public void onSuccess(String workId) {
                     dismissDialog();
-                    Toast.makeText(RegistrationActivity.this, getString(R.string.revoke_dci_code_success), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFail(int code, String msg) {
-                    dismissDialog();
-                    disposeError(code, msg);
+                    isRevokingWork = true;
+                    mWorkId = workId;
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.apply_revoke_dci_success), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (HwDciException e) {
@@ -325,33 +334,58 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void disposeError(int code, String msg) {
-        // deal error logic
-        Log.e(TAG, "code = " + code + ",msg = " + msg);
+    private void queryRevokeDciInfo() {
+        if (!isRevokingWork) {
+            Toast.makeText(this, getString(R.string.please_revoke_dci_info_first), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showLoading();
+        ParamsInfoEntity paramsInfoEntity = DataUtils.getCommonParamsInfoEntity();
+        paramsInfoEntity.setDciUid(DataUtils.getDciUid());
+        paramsInfoEntity.setWorkId(mWorkId);
+        try {
+            HwDciPublicClient.queryRevokeDciCodeInfo(paramsInfoEntity, new CommonFailCallBack<QueryRevokeDciInfoEntity>() {
+                @Override
+                public void onSuccess(QueryRevokeDciInfoEntity result) {
+                    dismissDialog();
+                    if (result == null) {
+                        return;
+                    }
+                    // 0:dealing 1:success 2:fail
+                    if (result.getCode() == 1) {
+                        mDciCode = null;
+                        isRevokingWork = false;
+                        mWorkId = null;
+                        Toast.makeText(RegistrationActivity.this, getString(R.string.revoke_dci_registration_success), Toast.LENGTH_SHORT).show();
+                    } else if (result.getCode() == 0) {
+                        Toast.makeText(RegistrationActivity.this, getString(R.string.revoke_dci_registration_processing), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegistrationActivity.this, getString(R.string.revoke_dci_registration_failed) + ":" + result.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } catch (HwDciException ex) {
+            dismissDialog();
+            Log.e(TAG, ex.getMessage());
+        }
     }
 
     private void addDciWatermark() {
-        if (TextUtils.isEmpty(selectFilePath)) {
+        if (selectUri == null) {
             Toast.makeText(this, getString(R.string.please_select_picture_first), Toast.LENGTH_SHORT).show();
             return;
         }
         showLoading();
         try {
-            HwDciPublicClient.addDciWatermark(
-                    selectFilePath,
-                    new HwDciClientCallBack<String>() {
-                        @Override
-                        public void onSuccess(String strBitmap) {
-                            dismissDialog();
-                            stringToBitmap(strBitmap);
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            dismissDialog();
-                            Log.e(TAG, "code = " + code + ",msg = " + msg);
-                        }
-                    });
+            HwDciPublicClient.addDciWatermark(selectUri, new CommonFailCallBack<String>() {
+                @Override
+                public void onSuccess(String strBitmap) {
+                    dismissDialog();
+                    if (!TextUtils.isEmpty(strBitmap)) {
+                        stringToBitmap(strBitmap);
+                    }
+                }
+            });
         } catch (HwDciException ex) {
             dismissDialog();
             Log.e(TAG, ex.getMessage());
@@ -360,18 +394,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     private void stringToBitmap(String string) {
         new Thread(() -> {
-            Bitmap bitmap;
             try {
                 byte[] bitmapArray = Base64.decode(string, Base64.DEFAULT);
                 if (bitmapArray != null) {
-                    bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
                     Message message = Message.obtain();
                     message.obj = bitmap;
                     mDealImageHandler.sendMessage(message);
                 }
-            } catch (Exception e) {
-                mDealImageHandler.sendEmptyMessage(0);
-                Log.e(TAG, "base64 to bitmap exception");
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, "decode base64 exception");
             }
         }).start();
     }

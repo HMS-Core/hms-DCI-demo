@@ -48,6 +48,15 @@
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/btn_query_revoke_dci_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/query_revoke_dci_info"
+            android:textColor="@color/white" />
+
+        <Button
             android:id="@+id/btn_add_dci_watermark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

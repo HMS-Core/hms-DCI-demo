@@ -16,11 +16,13 @@
 
 package com.huawei.codelab.dcidemo.view;
 
-import androidx.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.huawei.codelab.dcidemo.dialog.AppLoadingDialog;
-import com.huawei.codelab.dcidemo.utils.PermissionsUtils;
+import com.huawei.hms.dci.function.HwDciClientCallBack;
 
 /**
  * Base Activity class.
@@ -28,21 +30,9 @@ import com.huawei.codelab.dcidemo.utils.PermissionsUtils;
  * @since 2021-06-02
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    /**
-     * Permission Utils.
-     */
-    protected PermissionsUtils permissionsUtils;
+    private static final String TAG = BaseActivity.class.getName();
 
     private AppLoadingDialog mLoadingDialog;
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (permissionsUtils != null) {
-            permissionsUtils.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-        }
-    }
 
     /**
      * Show loading.
@@ -63,5 +53,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
+    }
+
+    /**
+     * Deal Error logic
+     *
+     * @param <T> T
+     */
+    protected abstract class CommonFailCallBack<T> implements HwDciClientCallBack<T> {
+        @Override
+        public void onFail(int code, String msg) {
+            dismissDialog();
+            disposeError(code, msg);
+        }
+    }
+
+    private void disposeError(int code, String msg) {
+        // deal error logic
+        Log.e(TAG, "code = " + code + ",msg = " + msg);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

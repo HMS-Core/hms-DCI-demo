@@ -55,7 +55,7 @@ You can visit the [Reddit community](https://www.reddit.com/r/HuaweiDevelopers/)
 
 If you have any questions about the sample code, try the following:
 
-- Visit [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services) and submit your questions under the `huawei-mobile-services` tag. Huawei experts will help you.
+- Visit [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services?tab=Votes) and submit your questions under the `huawei-mobile-services` tag. Huawei experts will help you.
 - Visit the HMS Core section in the [Huawei Developer Forum](https://forums.developer.huawei.com/forumPortal/en/forum/hms-core) and communicate with other developers.
 
 ## License

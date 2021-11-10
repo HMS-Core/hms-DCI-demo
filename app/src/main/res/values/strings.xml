@@ -21,21 +21,24 @@
 
     <string name="please_select_picture_first">Select a photographic work.</string>
     <string name="select_picture">Select photographic work</string>
-    <string name="please_permission_first">Grant the app relevant permissions. Otherwise, some functions will be unavailable.</string>
-    <string name="please_go_to_setting">No file access permission. Grant the app file access permission in system settings.</string>
-    <string name="file_access_denied">File access denied.</string>
 
     <string name="about_registration">Register copyright</string>
     <string name="dci_registration">Register</string>
     <string name="registration_processing">Registering…</string>
     <string name="registration_failed">Registration failed</string>
-    <string name="revoke_dci_code_success">Deregistration successful.</string>
     <string name="uploading_registered_work_succeeded">Registration application sent successfully.</string>
     <string name="querying_registration_information">View registration information</string>
     <string name="registration_success">DCI code issued.</string>
-    <string name="revoke_dci_copyright">Deregister</string>
+    <string name="revoke_dci_copyright">Revoke copyright registration</string>
     <string name="add_dci_watermark">Add DCI icon for registered photographic work</string>
 
     <string name="please_registration_work_first">Register your work first.</string>
     <string name="please_query_dci_registration_result">Registration in progress or failed.</string>
+
+    <string name="please_revoke_dci_info_first">Revoke copyright registration for the work first.</string>
+    <string name="apply_revoke_dci_success">Request to revoke copyright registration sent successfully.</string>
+    <string name="query_revoke_dci_info">View revoking result</string>
+    <string name="revoke_dci_registration_success">Copyright registration revoked successfully.</string>
+    <string name="revoke_dci_registration_processing">Request to revoke copyright registration is being processed.</string>
+    <string name="revoke_dci_registration_failed">Failed to revoke copyright registration for the work</string>
 </resources>

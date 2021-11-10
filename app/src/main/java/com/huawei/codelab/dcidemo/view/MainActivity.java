@@ -32,7 +32,6 @@ import com.huawei.codelab.dcidemo.R;
 import com.huawei.codelab.dcidemo.push.HmsPushHelper;
 import com.huawei.codelab.dcidemo.utils.DataUtils;
 import com.huawei.codelab.dcidemo.utils.HmsLoginUtils;
-import com.huawei.codelab.dcidemo.utils.PermissionsUtils;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.dci.entity.AccountInfoEntity;
 import com.huawei.hms.dci.entity.ParamsInfoEntity;
@@ -42,8 +41,6 @@ import com.huawei.hms.dci.function.HwDciException;
 import com.huawei.hms.dci.function.HwDciPublicClient;
 import com.huawei.hms.support.account.AccountAuthManager;
 import com.huawei.hms.support.account.result.AuthAccount;
-
-import java.util.List;
 
 /**
  * Main Activity class.
@@ -66,7 +63,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         initListener();
         HmsPushHelper.getToken(this);
-        permissionsUtils = PermissionsUtils.getInstance();
     }
 
     private void initListener() {
@@ -178,27 +174,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         ParamsInfoEntity paramsInfoEntity = DataUtils.getCommonParamsInfoEntity();
         paramsInfoEntity.setHmsPushToken(HmsPushHelper.PUSH_TOKEN);
-        if (permissionsUtils == null) {
-            return;
+        try {
+            HwDciPublicClient.registerDciAccount(MainActivity.this, paramsInfoEntity, CODE_GET_DCI_ACCOUNT);
+        } catch (HwDciException ex) {
+            Log.e(TAG, ex.getMessage());
         }
-        permissionsUtils.checkPermissions(
-                MainActivity.this,
-                PermissionsUtils.getPermissions(),
-                new PermissionsUtils.IPermissionsResult() {
-                    @Override
-                    public void passPermissions() {
-                        try {
-                            HwDciPublicClient.registerDciAccount(MainActivity.this, paramsInfoEntity, CODE_GET_DCI_ACCOUNT);
-                        } catch (HwDciException ex) {
-                            Log.e(TAG, ex.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void forbidPermissions(List<String> deniedPermissions) {
-                        Toast.makeText(MainActivity.this, getString(R.string.file_access_denied), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void showCloseDciAccountDialog() {
@@ -221,7 +201,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         try {
             HwDciPublicClient.closeDciAccount(
                     paramsInfoEntity,
-                    new HwDciClientCallBack<Boolean>() {
+                    new CommonFailCallBack<Boolean>() {
                         @Override
                         public void onSuccess(Boolean aBoolean) {
                             dismissDialog();
@@ -234,12 +214,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             } else {
                                 Toast.makeText(MainActivity.this, getString(R.string.close_dci_account_failed), Toast.LENGTH_SHORT).show();
                             }
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            dismissDialog();
-                            Log.e(TAG, "code = " + code + ",msg = " + msg);
                         }
                     });
         } catch (HwDciException ex) {
@@ -269,7 +243,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Toast.makeText(MainActivity.this, getString(R.string.hms_login_success), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Log.e(TAG, "onActivityResult authAccountTask exception is " + authAccountTask.getException());
+                Log.e(TAG, "onActivityResult authAccountTask exception");
             }
         } else if (requestCode == CODE_GET_DCI_ACCOUNT) {
             // DCI user is registered successfully

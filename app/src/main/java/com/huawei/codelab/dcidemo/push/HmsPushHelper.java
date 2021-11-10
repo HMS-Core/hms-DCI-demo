@@ -59,7 +59,6 @@ public class HmsPushHelper {
                         return;
                     }
                     setPushToken(token);
-                    Log.e(TAG, "HmsPushHelper: get token success " + token);
                 } catch (ApiException e) {
                     Log.e(TAG, "get token failed,statusCode = " + e.getStatusCode());
                 }
