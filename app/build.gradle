@@ -47,6 +47,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.huawei.hms:dci:3.0.2.300'
+    implementation 'com.huawei.hms:dci:3.0.2.301'
     implementation 'com.huawei.hms:push:6.1.0.300'
 }
